@@ -33,6 +33,7 @@ beforeAll(async () => {
 })
 
 afterAll(() => {
+  console.log('Closing server')
   server.close()
 })
 
@@ -65,4 +66,30 @@ test('a valid blog can be added', async () => {
   expect(response.body.length).toBe(initialBlogs.length + 1)
   expect(contents).toContain('Testiblogi')
 
+})
+
+test('added blog without likes has zero likes', async () => {
+  const newBlog = {
+    title: 'Testiblogi',
+    author: 'John Doe',
+    url: '<url>'
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+
+  expect(response.body.likes).toBe(0)
+})
+
+test('adding blog without title and url should return status 400', async () => {
+  const newBlog = {
+    author: 'John Doe',
+    likes: 1234
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
 })
