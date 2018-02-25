@@ -48,7 +48,18 @@ const blogs = [
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     likes: 2,
     __v: 0
-  }  
+  }
+]
+
+const listWithOneBlog = [
+  {
+    _id: '5a422aa71b54a676234d17f8',
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+    likes: 5,
+    __v: 0
+  }
 ]
 
 test('Dummy is called', () => {
@@ -67,17 +78,6 @@ describe('average', () => {
 
 describe('total likes', () => {
 
-  const listWithOneBlog = [
-    {
-      _id: '5a422aa71b54a676234d17f8',
-      title: 'Go To Statement Considered Harmful',
-      author: 'Edsger W. Dijkstra',
-      url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-      likes: 5,
-      __v: 0
-    }
-  ]
-
   test('when list has only one blog equals the likes of that', () => {
     const result = listHelper.totalLikes(listWithOneBlog)
     expect(result).toBe(5)
@@ -86,6 +86,25 @@ describe('total likes', () => {
   test('when list has multiple blogs equals the sum of likes of those', () => {
     const result = listHelper.totalLikes(blogs)
     expect(result).toBe(36)
+  })
+
+})
+
+describe('favorite blog', () => {
+
+  test('when list is empty equals to null', () => {
+    const result = listHelper.favoriteBlog([])
+    expect(result).toBe(null)
+  })
+
+  test('when list has only one blog equals to that blog', () => {
+    const result = listHelper.favoriteBlog(listWithOneBlog)
+    expect(result).toEqual(listWithOneBlog[0])
+  })
+
+  test('when list has multiple blogs equals to the blog with most likes', () => {
+    const result = listHelper.favoriteBlog(blogs)
+    expect(result).toEqual(blogs[2])
   })
 
 })
