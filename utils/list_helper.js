@@ -53,6 +53,30 @@ const mostBlogs = (blogs) => {
   return { author: mostFrequentBlogger, blogs: biggestNumberOfBlogs }
 }
 
+const mostLikes = (blogs) => {
+  let bloggers = blogs.map(blog => blog.author)
+  if(bloggers.length === 0) {
+    return null
+  }
+
+  let reducer = (sum, item) => {
+    return sum + item
+  }
+
+  let mostLikedBlogger = bloggers[0]
+  let biggestNumberOfLikes = 0
+  bloggers.forEach(blogger => {
+    let likes = blogs.filter(blog => blog.author === blogger).map(blog => blog.likes).reduce(reducer, 0)
+    if(likes > biggestNumberOfLikes) {
+      biggestNumberOfLikes = likes
+      mostLikedBlogger = blogger
+    }
+  })
+  console.log(mostLikedBlogger)
+  console.log(biggestNumberOfLikes)
+  return { author: mostLikedBlogger, likes: biggestNumberOfLikes }
+}
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
   return blogs
@@ -70,5 +94,6 @@ module.exports = {
   favoriteBlog,
   blogsInDb,
   usersInDb,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }

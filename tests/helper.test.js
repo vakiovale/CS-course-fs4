@@ -117,3 +117,12 @@ describe('most blogs', () => {
   })
 
 })
+
+describe('most likes', () => {
+
+  test('when list has multiple bloggers equals to the one with most likes', () => {
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 17 })
+  })
+
+})
