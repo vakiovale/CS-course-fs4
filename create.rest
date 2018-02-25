@@ -1,9 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InZweXlodGlhIiwiaWQiOiI1YTkzMDM5ZGNmNzQ4ZjUyZGU0N2QzNDgiLCJpYXQiOjE1MTk1ODQxNjl9.6Fwc2e9j8P8AEERBH0wQPXXrEd56hv19gM37YB6oIS4
 
 {
   "title": "Maailman suurin seikkailu",
   "author": "John Doe",
   "url": "<url>",
-  "likes": 100 
+  "likes": 100
 }

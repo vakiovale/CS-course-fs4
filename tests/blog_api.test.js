@@ -105,7 +105,7 @@ test('blog can be removed by id', async () => {
   await api
     .delete(`/api/blogs/${idToRemove}`)
     .expect(204)
-  
+
   const blogsAfterRemove = await blogsInDb()
   const idsAfterRemove = blogsAfterRemove.map(blog => blog._id)
   expect(idsAfterRemove).not.toContain(idToRemove)
