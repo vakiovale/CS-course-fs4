@@ -1,7 +1,6 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InZweXlodGlhIiwiaWQiOiI1YTkzMDM5ZGNmNzQ4ZjUyZGU0N2QzNDgiLCJpYXQiOjE1MTk1ODQxNjl9.6Fwc2e9j8P8AEERBH0wQPXXrEd56hv19gM37YB6oIS4
-
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InZweXlodGlhIiwiaWQiOiI1YTkzMDVkMGIyZGZmNzU0ZWVlNjAxNjMiLCJpYXQiOjE1MTk1ODQ3NjF9.nj37Wy08MopNQWlhPsD3w8x5lEcFTbXZs41-pGvBt7s 
 {
   "title": "Maailman suurin seikkailu",
   "author": "John Doe",

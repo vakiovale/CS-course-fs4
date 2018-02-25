@@ -17,6 +17,10 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   try {
+    if(request.token === undefined) {
+      return response.status(401).json({ error: 'unauthorized' })
+    }
+
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
     if(!decodedToken.id) {
@@ -34,9 +38,10 @@ blogsRouter.post('/', async (request, response) => {
       blog.likes = 0
     }
 
-    console.log(decodedToken.id)
     const user = await User.findById(decodedToken.id)
-    console.log(user)
+    if(user === undefined) {
+      return response.status(400).json({ error: 'authorized user does not exist' })
+    }
     blog.user = user._id
 
     const savedBlog = await blog.save()
@@ -53,7 +58,25 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
   try {
+    if(request.token === undefined) {
+      return response.status(401).json({ error: 'unauthorized' })
+    }
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+    if(!decodedToken.id) {
+      return response.status(400).json({ error: 'token missing or invalid' })
+    }
+
     const id = request.params.id
+    const blogToRemove = await Blog.findById(id)
+
+    if(blogToRemove === null) {
+      return response.status(400).json({ error: 'blog does not exist' })
+    }
+
+    if(blogToRemove.user !== undefined && (blogToRemove.user.toString() !== decodedToken.id.toString())) {
+      return response.status(401).json({ error: 'deleting post unauthorized' })
+    }
     await Blog.findByIdAndRemove(id)
     response.status(204).end()
   } catch(exception) {
