@@ -1,3 +1,5 @@
+const Blog = require('../models/blog')
+
 const dummy = (blogs) => {
   return 1
 }
@@ -26,9 +28,16 @@ const favoriteBlog = (blogs) => {
   return blogs.reduce(reducer, {})
 }
 
+const blogsInDb = async () => {
+  const blogs = await Blog.find({})
+  return blogs
+}
+
+
 module.exports = {
   dummy,
   average,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  blogsInDb
 }

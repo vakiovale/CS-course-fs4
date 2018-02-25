@@ -2,6 +2,7 @@ const supertest = require('supertest')
 const { app, server } = require('../index')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const blogsInDb = require('../utils/list_helper').blogsInDb
 
 const initialBlogs = [
   {
@@ -45,6 +46,8 @@ test('blogs are returned as json', async () => {
 })
 
 test('a valid blog can be added', async () => {
+  const blogsInDatabase = await blogsInDb()
+
   const newBlog = {
     title: 'Testiblogi',
     author: 'John Doe',
@@ -63,7 +66,7 @@ test('a valid blog can be added', async () => {
 
   const contents = response.body.map(r => r.title)
 
-  expect(response.body.length).toBe(initialBlogs.length + 1)
+  expect(response.body.length).toBe(blogsInDatabase.length + 1)
   expect(contents).toContain('Testiblogi')
 
 })
@@ -92,4 +95,19 @@ test('adding blog without title and url should return status 400', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+})
+
+test('blog can be removed by id', async () => {
+  const blogsInDatabase = await blogsInDb()
+  const blogToRemove = blogsInDatabase[0]
+  const idToRemove = blogToRemove._id
+
+  await api
+    .delete(`/api/blogs/${idToRemove}`)
+    .expect(204)
+  
+  const blogsAfterRemove = await blogsInDb()
+  const idsAfterRemove = blogsAfterRemove.map(blog => blog._id)
+  expect(idsAfterRemove).not.toContain(idToRemove)
+  expect(blogsAfterRemove.length).toBe(blogsInDatabase.length - 1)
 })
